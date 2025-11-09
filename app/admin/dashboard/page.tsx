@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import ProtectedRoute from '../../../components/ProtectedRoute'
 import AppwriteTest from '../../../components/AppwriteTest'
+import DatabaseDiagnostic from '../../../components/DatabaseDiagnostic'
 
 export default function AdminDashboard(){
   return (
@@ -63,15 +64,32 @@ export default function AdminDashboard(){
               Manage Gallery →
             </Link>
           </div>
+
+          <div className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <span className="text-indigo-600">📅</span>
+              </div>
+              <h3 className="font-semibold text-lg">Manage Events</h3>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">Create and manage workshops, hackathons, and seminars</p>
+            <Link href="/admin/events" className="text-primary hover:underline text-sm font-medium">
+              Manage Events →
+            </Link>
+          </div>
         </div>
 
         <div className="mt-8">
           <AppwriteTest />
         </div>
 
+        <div className="mt-8">
+          <DatabaseDiagnostic />
+        </div>
+
         <div className="mt-8 p-4 bg-blue-50 rounded-lg">
           <h3 className="font-semibold text-blue-900 mb-2">Quick Stats</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
             <div>
               <div className="text-2xl font-bold text-blue-600">0</div>
               <div className="text-sm text-blue-700">Segments</div>
@@ -87,6 +105,10 @@ export default function AdminDashboard(){
             <div>
               <div className="text-2xl font-bold text-purple-600">0</div>
               <div className="text-sm text-purple-700">Photos</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold text-indigo-600">0</div>
+              <div className="text-sm text-indigo-700">Events</div>
             </div>
           </div>
         </div>

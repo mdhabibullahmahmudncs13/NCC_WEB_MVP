@@ -1,109 +1,30 @@
 "use client"
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-
-type EventType = 'Workshop' | 'Hackathon' | 'Seminar' | 'Session' | 'Webinar'
-type EventMode = 'Online' | 'Offline' | 'Hybrid'
-type EventStatus = 'Past' | 'Running' | 'Upcoming'
-
-type Event = {
-  id: string
-  title: string
-  description: string
-  type: EventType
-  mode: EventMode
-  status: EventStatus
-  date: string
-  time: string
-  duration: string
-  location?: string
-  registrationLink?: string
-  maxParticipants?: number
-  currentParticipants?: number
-  tags: string[]
-}
-
-// Demo events data
-const demoEvents: Event[] = [
-  {
-    id: '1',
-    title: 'React & Next.js Workshop',
-    description: 'Learn modern React development with Next.js framework. Build a complete web application from scratch.',
-    type: 'Workshop',
-    mode: 'Hybrid',
-    status: 'Upcoming',
-    date: '2025-11-20',
-    time: '10:00 AM',
-    duration: '4 hours',
-    location: 'NITER Lab Room 301 / Online',
-    registrationLink: '#',
-    maxParticipants: 50,
-    currentParticipants: 23,
-    tags: ['React', 'Next.js', 'Frontend', 'JavaScript']
-  },
-  {
-    id: '2',
-    title: 'AI/ML Innovation Hackathon',
-    description: '48-hour hackathon focusing on AI/ML solutions for real-world problems. Win exciting prizes!',
-    type: 'Hackathon',
-    mode: 'Offline',
-    status: 'Upcoming',
-    date: '2025-12-01',
-    time: '9:00 AM',
-    duration: '48 hours',
-    location: 'NITER Main Campus',
-    registrationLink: '#',
-    maxParticipants: 100,
-    currentParticipants: 67,
-    tags: ['AI', 'Machine Learning', 'Python', 'Competition']
-  },
-  {
-    id: '3',
-    title: 'Cybersecurity Best Practices',
-    description: 'Expert seminar on modern cybersecurity threats and protection strategies for developers.',
-    type: 'Seminar',
-    mode: 'Online',
-    status: 'Running',
-    date: '2025-11-09',
-    time: '2:00 PM',
-    duration: '2 hours',
-    registrationLink: '#',
-    maxParticipants: 200,
-    currentParticipants: 156,
-    tags: ['Security', 'Best Practices', 'Networking']
-  },
-  {
-    id: '4',
-    title: 'Git & GitHub Masterclass',
-    description: 'Complete guide to version control with Git and collaborative development using GitHub.',
-    type: 'Session',
-    mode: 'Hybrid',
-    status: 'Past',
-    date: '2025-10-25',
-    time: '3:00 PM',
-    duration: '3 hours',
-    location: 'NITER Computer Lab',
-    tags: ['Git', 'GitHub', 'Version Control', 'Collaboration']
-  },
-  {
-    id: '5',
-    title: 'Cloud Computing with AWS',
-    description: 'Introduction to cloud services and hands-on AWS deployment strategies.',
-    type: 'Webinar',
-    mode: 'Online',
-    status: 'Past',
-    date: '2025-10-15',
-    time: '7:00 PM',
-    duration: '90 minutes',
-    tags: ['AWS', 'Cloud', 'DevOps', 'Infrastructure']
-  }
-]
+import { EventsService, Event, EventType, EventMode, EventStatus } from '../../../services/eventsService'
 
 export default function Events() {
-  const [events, setEvents] = useState<Event[]>(demoEvents)
+  const [events, setEvents] = useState<Event[]>([])
   const [selectedStatus, setSelectedStatus] = useState<EventStatus | 'All'>('All')
   const [selectedType, setSelectedType] = useState<EventType | 'All'>('All')
   const [selectedMode, setSelectedMode] = useState<EventMode | 'All'>('All')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        setLoading(true)
+        const eventsData = await EventsService.getAllEvents()
+        setEvents(eventsData)
+      } catch (error) {
+        console.error('Error loading events:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadEvents()
+  }, [])
 
   const filteredEvents = events.filter(event => {
     if (selectedStatus !== 'All' && event.status !== selectedStatus) return false
@@ -211,7 +132,13 @@ export default function Events() {
       {/* Events Grid */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6">
-          {filteredEvents.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="text-gray-400 text-6xl mb-4">⏳</div>
+              <h3 className="text-xl font-medium text-gray-700 mb-2">Loading events...</h3>
+              <p className="text-gray-500">Please wait while we fetch the latest events.</p>
+            </div>
+          ) : filteredEvents.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-gray-400 text-6xl mb-4">📅</div>
               <h3 className="text-xl font-medium text-gray-700 mb-2">No events found</h3>
@@ -220,17 +147,29 @@ export default function Events() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {filteredEvents.map(event => (
-                <div key={event.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                  {/* Event Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">{getTypeIcon(event.type)}</span>
-                      <span className="text-sm font-medium text-gray-600">{event.type}</span>
+                <div key={event.$id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                  {/* Event Photo */}
+                  {event.photoUrl && (
+                    <div className="w-full h-48 overflow-hidden">
+                      <img
+                        src={event.photoUrl}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(event.status)}`}>
-                      {event.status}
-                    </span>
-                  </div>
+                  )}
+                  
+                  <div className="p-6">
+                    {/* Event Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{getTypeIcon(event.type)}</span>
+                        <span className="text-sm font-medium text-gray-600">{event.type}</span>
+                      </div>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(event.status)}`}>
+                        {event.status}
+                      </span>
+                    </div>
 
                   {/* Event Title */}
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{event.title}</h3>
@@ -242,7 +181,10 @@ export default function Events() {
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                       <span>📅</span>
-                      <span>{new Date(event.date).toLocaleDateString()} at {event.time}</span>
+                      <span>{new Date(event.date).toLocaleDateString()} at {event.time.includes(':') ? 
+                        new Date(`2000-01-01T${event.time}`).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 
+                        event.time
+                      }</span>
                     </div>
                     
                     <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -293,6 +235,7 @@ export default function Events() {
                       Event Ended
                     </button>
                   )}
+                  </div>
                 </div>
               ))}
             </div>

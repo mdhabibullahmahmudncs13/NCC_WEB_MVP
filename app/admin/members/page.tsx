@@ -38,7 +38,7 @@ export default function AdminMembers(){
   const loadMembers = async () => {
     try {
       const response = await membersService.list()
-      setMembers(response.documents)
+      setMembers(response.documents as unknown as Member[])
     } catch (error: any) {
       console.error('Error loading members:', error)
       

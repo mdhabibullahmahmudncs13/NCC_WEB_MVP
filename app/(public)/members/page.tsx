@@ -24,7 +24,7 @@ export default function MembersPage(){
   const loadMembers = async () => {
     try {
       const response = await membersService.list()
-      setMembers(response.documents)
+      setMembers(response.documents as unknown as Member[])
     } catch (error) {
       console.error('Error loading members:', error)
     } finally {

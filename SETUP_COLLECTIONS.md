@@ -22,6 +22,7 @@ Before you can add members, you need to create the necessary collections in your
 title (String, 255 chars, Required)
 description (String, 1000 chars, Required)
 icon (String, 255 chars, Optional)
+photoId (String, 255 chars, Optional)
 ```
 
 #### B. **Members Collection**
@@ -89,6 +90,18 @@ uploadedAt (DateTime, Optional)
 1. Create bucket with ID: `gallery-photos`
 2. Settings:
    - Max file size: 10MB (10485760 bytes)
+   - Allowed extensions: `jpg,jpeg,png,webp`
+
+#### D. **Event Photos Bucket**
+1. Create bucket with ID: `event-photos`
+2. Settings:
+   - Max file size: 5MB (5242880 bytes)
+   - Allowed extensions: `jpg,jpeg,png,webp`
+
+#### E. **Segment Photos Bucket**
+1. Create bucket with ID: `segment-photos`
+2. Settings:
+   - Max file size: 5MB (5242880 bytes)
    - Allowed extensions: `jpg,jpeg,png,webp`
 
 **Set Permissions for ALL buckets:**

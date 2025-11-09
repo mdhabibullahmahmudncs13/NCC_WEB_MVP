@@ -8,6 +8,7 @@ type Segment = {
   title: string
   description: string
   icon?: string
+  photoId?: string
 }
 
 export default function Home(){
@@ -21,7 +22,7 @@ export default function Home(){
   const loadSegments = async () => {
     try {
       const response = await segmentsService.list()
-      setSegments(response.documents)
+      setSegments(response.documents as unknown as Segment[])
     } catch (error) {
       console.error('Error loading segments:', error)
     } finally {
@@ -37,7 +38,7 @@ export default function Home(){
         <div className="container mx-auto px-6 text-center relative z-10">
           {/* Logo */}
           <div className="mb-12 flex justify-center">
-            <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full p-3 shadow-xl border-4 border-gray-200">
+            <div className="w-30 h-30 md:w-32 md:h-32 bg-white rounded-full p-3  border-0">
               <img 
                 src="/ncc-logo.svg" 
                 alt="NITER Computer Club Logo" 
@@ -178,24 +179,37 @@ export default function Home(){
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {segments.map(segment => (
-                <div key={segment.$id} className="group bg-white border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-all duration-200">
-                  <div className="flex items-start gap-4 mb-6">
-                    {segment.icon && (
-                      <div className="bg-gray-100 p-2 rounded-lg">
-                        <span className="text-2xl">
-                          {segment.icon}
-                        </span>
-                      </div>
-                    )}
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-900 mb-2">
-                        {segment.title}
-                      </h3>
+                <div key={segment.$id} className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200">
+                  {/* Photo Section */}
+                  {segment.photoId && (
+                    <div className="aspect-video overflow-hidden">
+                      <img 
+                        src={segmentsService.getPhotoUrl(segment.photoId).href} 
+                        alt={segment.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
                     </div>
+                  )}
+                  
+                  <div className="p-8">
+                    <div className="flex items-start gap-4 mb-6">
+                      {segment.icon && (
+                        <div className="bg-gray-100 p-2 rounded-lg flex-shrink-0">
+                          <span className="text-2xl">
+                            {segment.icon}
+                          </span>
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900 mb-2">
+                          {segment.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      {segment.description}
+                    </p>
                   </div>
-                  <p className="text-gray-600 leading-relaxed">
-                    {segment.description}
-                  </p>
                 </div>
               ))}
             </div>

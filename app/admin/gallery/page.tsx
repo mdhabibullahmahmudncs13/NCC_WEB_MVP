@@ -33,7 +33,7 @@ export default function AdminGallery(){
   const loadGallery = async () => {
     try {
       const response = await galleryService.list()
-      setGallery(response.documents)
+      setGallery(response.documents as unknown as GalleryItem[])
     } catch (error: any) {
       console.error('Error loading gallery:', error)
       

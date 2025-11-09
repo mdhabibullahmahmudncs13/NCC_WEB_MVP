@@ -22,7 +22,7 @@ export default function GalleryPage(){
   const loadGallery = async () => {
     try {
       const response = await galleryService.list()
-      setGalleryItems(response.documents)
+      setGalleryItems(response.documents as unknown as GalleryItem[])
     } catch (error) {
       console.error('Error loading gallery:', error)
     } finally {

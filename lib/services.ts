@@ -9,6 +9,7 @@ const COLLECTION_GALLERY = 'gallery'
 const BUCKET_MEMBER_PHOTOS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_MEMBER_PHOTOS!
 const BUCKET_ACHIEVEMENTS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ACHIEVEMENTS!
 const BUCKET_GALLERY = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_GALLERY!
+const BUCKET_SEGMENT_PHOTOS = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_SEGMENT_PHOTOS!
 
 // Storage utilities
 export const storageService = {
@@ -35,7 +36,7 @@ export const segmentsService = {
     return await databases.listDocuments(DATABASE_ID, COLLECTION_SEGMENTS)
   },
 
-  async create(data: { title: string; description: string; icon?: string }) {
+  async create(data: { title: string; description: string; icon?: string; photoId?: string }) {
     return await databases.createDocument(
       DATABASE_ID,
       COLLECTION_SEGMENTS,
@@ -44,7 +45,7 @@ export const segmentsService = {
     )
   },
 
-  async update(id: string, data: { title: string; description: string; icon?: string }) {
+  async update(id: string, data: { title: string; description: string; icon?: string; photoId?: string }) {
     return await databases.updateDocument(
       DATABASE_ID,
       COLLECTION_SEGMENTS,
@@ -55,6 +56,22 @@ export const segmentsService = {
 
   async delete(id: string) {
     return await databases.deleteDocument(DATABASE_ID, COLLECTION_SEGMENTS, id)
+  },
+
+  async uploadPhoto(file: File) {
+    return await storageService.uploadFile(BUCKET_SEGMENT_PHOTOS, file)
+  },
+
+  async deletePhoto(photoId: string) {
+    return await storageService.deleteFile(BUCKET_SEGMENT_PHOTOS, photoId)
+  },
+
+  getPhotoUrl(photoId: string) {
+    return storageService.getFileView(BUCKET_SEGMENT_PHOTOS, photoId)
+  },
+
+  getPhotoPreview(photoId: string, width = 400, height = 300) {
+    return storageService.getFilePreview(BUCKET_SEGMENT_PHOTOS, photoId, width, height)
   }
 }
 

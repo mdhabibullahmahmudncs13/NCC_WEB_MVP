@@ -13,9 +13,9 @@ export default function AppwriteTest() {
     try {
       // Test database connection
       const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID
-      const response = await databases.listCollections(databaseId!)
+      const response = await databases.listDocuments(databaseId!, 'segments')
       
-      setStatus(`✅ Connected! Found ${response.collections.length} collections: ${response.collections.map(c => c.name).join(', ')}`)
+      setStatus(`✅ Connected! Database accessible`)
     } catch (error: any) {
       console.error('Connection test failed:', error)
       setStatus(`❌ Failed: ${error.message || 'Unknown error'}`)

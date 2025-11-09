@@ -20,18 +20,16 @@ export default function Header(){
         <div className="flex items-center justify-between py-3">
           {/* Logo and Brand */}
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white rounded-full p-2 shadow-md border-2 border-gray-100 hover:shadow-lg transition-shadow">
-              <img 
-                src="/ncc-logo.svg" 
-                alt="NCC Logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <img 
+              src="/ncc-logo.svg" 
+              alt="NCC Logo" 
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <Link href="/" className="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
                 NCC
               </Link>
-              <div className="text-sm text-gray-500 font-medium">NITER COMPUTER CLUB</div>
+             
             </div>
           </div>
           
@@ -100,7 +98,7 @@ export default function Header(){
                       href="/admin/dashboard" 
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center gap-2"
                     >
-                      <span>🎛️</span> Dashboard
+                       Dashboard
                     </Link>
                   </li>
                   <li>

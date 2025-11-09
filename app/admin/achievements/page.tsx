@@ -36,7 +36,7 @@ export default function AdminAchievements(){
   const loadAchievements = async () => {
     try {
       const response = await achievementsService.list()
-      setAchievements(response.documents)
+      setAchievements(response.documents as unknown as Achievement[])
     } catch (error) {
       console.error('Error loading achievements:', error)
     } finally {
