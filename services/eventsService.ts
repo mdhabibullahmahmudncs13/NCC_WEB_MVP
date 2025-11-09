@@ -142,7 +142,8 @@ export class EventsService {
         EVENTS_COLLECTION_ID,
         [
           Query.equal('status', status),
-          Query.orderDesc('date')
+          Query.orderDesc('date'),
+          Query.limit(100)
         ]
       )
       return response.documents as unknown as Event[]
@@ -160,7 +161,8 @@ export class EventsService {
         EVENTS_COLLECTION_ID,
         [
           Query.equal('type', type),
-          Query.orderDesc('date')
+          Query.orderDesc('date'),
+          Query.limit(100)
         ]
       )
       return response.documents as unknown as Event[]
@@ -178,7 +180,8 @@ export class EventsService {
         EVENTS_COLLECTION_ID,
         [
           Query.equal('mode', mode),
-          Query.orderDesc('date')
+          Query.orderDesc('date'),
+          Query.limit(100)
         ]
       )
       return response.documents as unknown as Event[]
@@ -328,7 +331,8 @@ export class EventsService {
         EVENTS_COLLECTION_ID,
         [
           Query.search('title', searchTerm),
-          Query.orderDesc('$createdAt')
+          Query.orderDesc('$createdAt'),
+          Query.limit(100)
         ]
       )
       return response.documents as unknown as Event[]

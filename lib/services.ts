@@ -33,7 +33,10 @@ export const storageService = {
 // Segments CRUD
 export const segmentsService = {
   async list() {
-    return await databases.listDocuments(DATABASE_ID, COLLECTION_SEGMENTS)
+    return await databases.listDocuments(DATABASE_ID, COLLECTION_SEGMENTS, [
+      Query.limit(100),
+      Query.orderAsc('$createdAt')
+    ])
   },
 
   async create(data: { title: string; description: string; icon?: string; photoId?: string }) {
@@ -81,7 +84,10 @@ export const membersService = {
     return await databases.listDocuments(
       DATABASE_ID,
       COLLECTION_MEMBERS,
-      [Query.orderAsc('order')]
+      [
+        Query.limit(100),
+        Query.orderAsc('order')
+      ]
     )
   },
 
@@ -137,7 +143,10 @@ export const achievementsService = {
     return await databases.listDocuments(
       DATABASE_ID,
       COLLECTION_ACHIEVEMENTS,
-      [Query.orderDesc('date')]
+      [
+        Query.limit(100),
+        Query.orderDesc('date')
+      ]
     )
   },
 
@@ -192,7 +201,10 @@ export const galleryService = {
     return await databases.listDocuments(
       DATABASE_ID,
       COLLECTION_GALLERY,
-      [Query.orderDesc('$createdAt')]
+      [
+        Query.limit(100),
+        Query.orderDesc('$createdAt')
+      ]
     )
   },
 
