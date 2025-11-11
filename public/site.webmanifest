@@ -1,0 +1,16 @@
+{
+  "name": "NITER Computer Club",
+  "short_name": "NCC",
+  "description": "Professional Technology Community at National Institute of Textile Engineering & Research",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/ncc-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
