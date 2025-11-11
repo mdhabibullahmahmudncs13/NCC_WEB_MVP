@@ -66,14 +66,6 @@ export default function LoginPage(){
           </Button>
         </div>
       </form>
-
-      <div className="mt-6 p-4 bg-gray-50 rounded">
-        <h3 className="text-sm font-medium mb-2">Demo Credentials:</h3>
-        <p className="text-xs text-gray-600">
-          Email: admin@ncc.edu<br/>
-          Password: SecureAdminPass123!
-        </p>
-      </div>
     </div>
   )
 }
