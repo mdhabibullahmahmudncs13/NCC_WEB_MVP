@@ -244,7 +244,7 @@ export default function Home(){
           
           <div className="border-t border-gray-200 pt-8">
             <p className="text-gray-500 text-sm">
-              For inquiries: <a href="mailto:info@nitercc.edu" className="text-blue-600 hover:text-blue-700">info@nitercc.edu</a>
+              For inquiries: <a href="mailto:computerclubniter@gmail.com" className="text-blue-600 hover:text-blue-700">computerclubniter@gmail.com</a>
             </p>
           </div>
         </div>
