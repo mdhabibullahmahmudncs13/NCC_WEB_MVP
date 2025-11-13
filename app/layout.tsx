@@ -12,7 +12,7 @@ export const metadata = {
     apple: '/ncc-logo.svg',
   },
   manifest: '/site.webmanifest',
-  themeColor: '#2563eb',
+  metadataBase: new URL('https://nitercc.edu'),
   openGraph: {
     title: 'NITER Computer Club',
     description: 'Professional Technology Community at NITER',
@@ -35,6 +35,10 @@ export const metadata = {
     description: 'Professional Technology Community at NITER',
     images: ['/ncc-logo.svg'],
   },
+}
+
+export const viewport = {
+  themeColor: '#2563eb',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }){

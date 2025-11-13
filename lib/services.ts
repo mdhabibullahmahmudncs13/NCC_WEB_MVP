@@ -39,7 +39,22 @@ export const segmentsService = {
     ])
   },
 
-  async create(data: { title: string; description: string; icon?: string; photoId?: string }) {
+  async get(id: string) {
+    return await databases.getDocument(DATABASE_ID, COLLECTION_SEGMENTS, id)
+  },
+
+  async create(data: { 
+    title: string
+    description: string
+    icon?: string
+    photoId?: string
+    founded?: string
+    activities?: string[]
+    vision?: string
+    mission?: string
+    achievements?: string[]
+    contact?: string
+  }) {
     return await databases.createDocument(
       DATABASE_ID,
       COLLECTION_SEGMENTS,
@@ -48,7 +63,18 @@ export const segmentsService = {
     )
   },
 
-  async update(id: string, data: { title: string; description: string; icon?: string; photoId?: string }) {
+  async update(id: string, data: { 
+    title: string
+    description: string
+    icon?: string
+    photoId?: string
+    founded?: string
+    activities?: string[]
+    vision?: string
+    mission?: string
+    achievements?: string[]
+    contact?: string
+  }) {
     return await databases.updateDocument(
       DATABASE_ID,
       COLLECTION_SEGMENTS,
@@ -75,6 +101,58 @@ export const segmentsService = {
 
   getPhotoPreview(photoId: string, width = 400, height = 300) {
     return storageService.getFilePreview(BUCKET_SEGMENT_PHOTOS, photoId, width, height)
+  },
+
+  // Segment Members
+  async getMembers(segmentId: string) {
+    return await databases.listDocuments(
+      DATABASE_ID,
+      COLLECTION_MEMBERS,
+      [
+        Query.equal('segmentId', segmentId),
+        Query.limit(100),
+        Query.orderAsc('order')
+      ]
+    )
+  },
+
+  async addMember(segmentId: string, data: {
+    name: string
+    role: string
+    photoId?: string
+    email?: string
+    bio?: string
+    order?: number
+    position?: string
+    skills?: string[]
+    joinDate?: string
+  }) {
+    return await databases.createDocument(
+      DATABASE_ID,
+      COLLECTION_MEMBERS,
+      ID.unique(),
+      {
+        ...data,
+        segmentId
+      }
+    )
+  },
+
+  async updateMember(memberId: string, data: any) {
+    return await databases.updateDocument(
+      DATABASE_ID,
+      COLLECTION_MEMBERS,
+      memberId,
+      data
+    )
+  },
+
+  async removeMember(memberId: string) {
+    return await databases.deleteDocument(
+      DATABASE_ID,
+      COLLECTION_MEMBERS,
+      memberId
+    )
   }
 }
 

@@ -179,7 +179,11 @@ export default function Home(){
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
               {segments.map(segment => (
-                <div key={segment.$id} className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200">
+                <Link 
+                  key={segment.$id} 
+                  href={`/segments/${segment.$id}`}
+                  className="group bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-200 cursor-pointer"
+                >
                   {/* Photo Section */}
                   {segment.photoId && (
                     <div className="aspect-video overflow-hidden">
@@ -200,17 +204,33 @@ export default function Home(){
                           </span>
                         </div>
                       )}
-                      <div>
-                        <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-2">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                           {segment.title}
                         </h3>
+                      </div>
+                      {/* Click indicator */}
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </div>
                     </div>
                     <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                       {segment.description}
                     </p>
+                    
+                    {/* View Details link */}
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <span className="text-blue-600 text-sm font-medium flex items-center gap-2">
+                        View Details & Members
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
