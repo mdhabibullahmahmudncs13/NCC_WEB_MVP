@@ -54,9 +54,9 @@ export default function Home(){
             Professional Technology Community at National Institute of Textile Engineering & Research
           </p>
           <div className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed text-gray-700 px-4">
-            <p className="mb-4 sm:mb-6">
+            {/* <p className="mb-4 sm:mb-6">
               Advancing technological excellence through innovative projects, industry partnerships, and professional development programs.
-            </p>
+            </p> */}
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
